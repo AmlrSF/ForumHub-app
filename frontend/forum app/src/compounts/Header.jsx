@@ -1,9 +1,9 @@
 import React, { useState } from 'react'
-import {Link} from 'react-router-dom';
+import {Link,useNavigate} from 'react-router-dom';
 
 const Header = () => {
   const [user,setUser] = useState('');
-
+  const navigate = useNavigate();
   return (
     <header 
       className='flex justify-between items-center
@@ -16,13 +16,8 @@ const Header = () => {
         <div className='flex gap-2'>
           {user ? 
             <>
-            <button onClick={()=>navigate('/Dashboard')} 
-              className=" text-white font-medium bg-green-700 font-medium
-              rounded-md text-sm  
-                px-5 py-2.5 text-center">
-                {user}
-              </button>
-              <button onClick={()=>logout()} 
+              
+              <button 
               className=" text-white font-medium bg-green-700 font-medium
               rounded-md text-sm  
                 px-5 py-2.5 text-center">
