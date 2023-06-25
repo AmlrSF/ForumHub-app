@@ -1,6 +1,9 @@
 import React from 'react'
 import { useState } from 'react'
 import {useNavigate} from 'react-router-dom'
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 const SignUp = () => {
   const [form,setForm] = useState({
     username:'',
@@ -12,6 +15,32 @@ const SignUp = () => {
   const handleSubmit = async(e)=>{
     e.preventDefault();
     let {username,email,password} = form;
+    try {
+      const response = await fetch('http://localhost:5500/api/v1/users/register', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ ...form }),
+      });
+
+        const result = await response.json();
+        console.log(result);
+        if(result.errors === undefined){
+          toast.success('register succes', {
+            position: toast.POSITION.BOTTOM_RIGHT
+          });
+          navigate('/Login');
+        }
+
+        result.errors.forEach(element => {
+          toast.error(element.msg, {
+            position: toast.POSITION.BOTTOM_RIGHT
+          });
+        }); 
+    } catch (error) {   
+      console.log(error);
+  }
   }
 
   const handleUser = (e)=>setForm({...form,username:e.target.value});
@@ -19,7 +48,7 @@ const SignUp = () => {
   const handlePass = (e)=>setForm({...form,password:e.target.value});
   return (
     <>
-    {/* <ToastContainer /> */}
+    <ToastContainer />
      <div className='max-7xl 
      mx-auto flex items-center 
      justify-center h-[80vh]'>

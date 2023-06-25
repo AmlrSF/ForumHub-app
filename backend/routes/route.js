@@ -3,10 +3,10 @@ const router = express.Router();
 const {
     register,
     Login,
-    verifyToken,
     getUser
 } = require('../controllers/index.js')
 const {check} = require('express-validator');
+const {authorize} = require('../middleware/index.js')
 
 router.route('/register').post([
     check('email','please enter a valid email').isEmail(),
@@ -15,6 +15,6 @@ router.route('/register').post([
 ],register)
 
 router.route('/Login').post(Login)
-router.route('/user').get(verifyToken,getUser);
+router.route('/user').post(authorize,getUser);
 
 module.exports = router;

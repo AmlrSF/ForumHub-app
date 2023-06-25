@@ -13,9 +13,9 @@ app.use(cors())
 app.use(cookieParser())
 app.use('/api/v1/users',user);
 
-app.get('/api/v1/users/nice',(req,res)=>{
-    res.send('hello')
-})
+// app.get('/api/v1/users/nice',(req,res)=>{
+//     res.send('hello')
+// })
 
 const {MONGODB_URL} = process.env;
 

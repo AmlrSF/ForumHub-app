@@ -1,9 +1,15 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import {Link,useNavigate} from 'react-router-dom';
+import { userContext } from '../context/context';
 
 const Header = () => {
-  const [user,setUser] = useState('');
   const navigate = useNavigate();
+  const {data,setData} = useContext(userContext);
+  const handleLogout = ()=>{
+    setData('');
+    localStorage.clear();
+    navigate('/Login');
+  }
   return (
     <header 
       className='flex justify-between items-center
@@ -14,10 +20,10 @@ const Header = () => {
           <Link to='/' className='text-[14px] font-600 text-[#222328]'>Home</Link>
         </ul>
         <div className='flex gap-2'>
-          {user ? 
+          {data ? 
             <>
               
-              <button 
+            <button  onClick={handleLogout}
               className=" text-white font-medium bg-green-700 font-medium
               rounded-md text-sm  
                 px-5 py-2.5 text-center">

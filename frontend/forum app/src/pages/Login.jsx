@@ -1,17 +1,56 @@
 import React, {  useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { useCookies } from 'react-cookie';
 
 const Login = () => {
   const [form,setForm] = useState({
     email:'',
     password:''
   })
+  const [cookies, setCookie] = useCookies();
+
   const navigate = useNavigate();
 
   const handleSubmit = async(e)=>{
     e.preventDefault();
     let {email,password} = form;
+    
+    try {
+      const response = await fetch('http://localhost:5500/api/v1/users/Login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({password,email}),
+      });
+
+        const result = await response.json();
+        
+        if(result.succes === true){
+          let {user:{_id},token} = result;
+          // console.log(_id,token);
+          
+          localStorage.setItem('token',token);
+          navigate('/');
+          
+        }else{
+          result.errors.forEach(element => {
+            toast.error(element.msg, {
+              position: toast.POSITION.BOTTOM_RIGHT,
+
+            });
+          });
+        }
+      
+       
+          
+        
+
+    } catch (error) {
+     console.log(error);
+    }
   }
 
   const handleUser = (e)=>setForm({...form,email:e.target.value});
@@ -19,7 +58,7 @@ const Login = () => {
 
   return (
     <>
-      {/* <ToastContainer /> */}
+      <ToastContainer />
       <div className='max-7xl 
     mx-auto flex items-center 
     justify-center h-[80vh]'>

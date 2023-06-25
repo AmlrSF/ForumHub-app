@@ -76,29 +76,22 @@ const Login = async(req,res)=>{
                         }
                 ]
             })
-        }
-        //genrate token 
+        }else{
+             //genrate token 
         const token  = jwt.sign({
                 id:MatchUser._id,
                 username:MatchUser.username
-            },
-            process.env.secretKey,
-            {
-            expiresIn: "30s"
-            }
-        )
-        res.cookie(String(MatchUser._id),token,{
-            path:'/',
-            expiresIn:new Date(Date.now() + 1000 * 30),
-            httpOnly:true,
-            sameSite:"lax"
-        })
-
-
-
-        res.json({
-            succes:true,user:MatchUser,token
-        })
+                },
+                process.env.secretKey,
+                {
+            expiresIn: "1h"
+            
+            },(err,token)=>{
+                if(err)throw err;
+                res.json({succes:true,user:MatchUser,token})
+            })  
+       }
+        
     } catch (error) {
         res.status(500).json(
             {
@@ -109,35 +102,46 @@ const Login = async(req,res)=>{
     }
 }
 
-const verifyToken = async(req,res,next)=>{
-    const header = req.headers.cookie;
+// const verifyToken = async(req,res,next)=>{
+//     const header = req.headers.cookie;
+//     // console.log(header);// 
+//     const token = header.split('=')[1];
+//     const finalToken = token.split('; ')[0];
+
+
+//     console.log(finalToken)
+
     
-    const token = header.split('=')[1];
-   const finalToken = token.split('; ')[0];
-    if(!token){
-        return res.status(404).send({
-            success:false,
-            message:"no token found"
-        })
-    }
+
+//     if(!token){
+//         return res.status(404).send({
+//             success:false,
+//             message:"no token found"
+//         })
+//     }
+//     try {
+//         jwt.verify(String(finalToken),process.env.secretKey,(err,result)=>{
+//             console.log(result);
+//             if(err) {
+//                 // console.log(String(token));
+//                 return res.status(400).send({
+//                     success:false,
+//                     message:"invalid token"
+//                 })
+//             }
+//             // console.log(result.id);
+//             req.body.id = result.id;
+//         })
+//         next();
+//     } catch (error) {
+//         console.log(error);
+//     }
     
-    jwt.verify(String(finalToken),process.env.secretKey,(err,result)=>{
-        if(err) {
-            // console.log(String(token));
-            return res.status(400).send({
-                success:false,
-                message:"invalid token"
-            })
-            
-        }
-        // console.log(result.id);
-        req.id = result.id;
-    })
-    next();
-}
+// }
 
 const getUser = async(req,res)=>{
     const userId = req.id;
+    console.log(userId);
     try {
         const profileUser = await user.findOne({_id:userId})
         if(!profileUser){
@@ -165,6 +169,6 @@ const getUser = async(req,res)=>{
 module.exports = {
     register,
     Login,
-    verifyToken,
+   
     getUser
 }
