@@ -33,7 +33,7 @@ const Login = () => {
           // console.log(_id,token);
           
           localStorage.setItem('token',token);
-          navigate('/');
+          navigate('/')
           
         }else{
           result.errors.forEach(element => {

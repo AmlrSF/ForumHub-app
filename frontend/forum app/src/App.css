@@ -5,3 +5,15 @@
 *{
   font-family: Arial, Helvetica, sans-serif;
 }
+
+.container{
+  max-width: 1150px;
+  width: 95dvw;
+  margin: 0 auto;
+}
+
+.card-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill,minmax(270px,1fr));
+  gap: 15px;
+}

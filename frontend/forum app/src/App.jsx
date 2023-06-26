@@ -10,10 +10,13 @@ import { UserContextProvider } from './context/context';
 //importing from compounents directory
 import { Header,Wrapper } from './compounts';
 
+import { useContext } from 'react';
+import { userContext } from './context/context';
 // import from pages directory
-import { Home,SignUp,Login } from './pages';
+import { Home,SignUp,Login,CreatePost,SinglePostInfo } from './pages';
 function App() {
-  const [user,setUser] = useState('');
+  const {data} = useContext(userContext);
+
   const navigate = useNavigate();
   return (
     <>
@@ -27,6 +30,8 @@ function App() {
           />
           <Route path="/Login" element={<Login />} />
           <Route path="/SignUp" element={<SignUp />} />
+          <Route path='/CreatePost' element={<CreatePost />} />
+          <Route path='/post/:id' element={<SinglePostInfo />} />
         </Routes>
       </Wrapper>
     </UserContextProvider>

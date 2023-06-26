@@ -14,21 +14,26 @@ const Header = () => {
     <header 
       className='flex justify-between items-center
       bg-white sm:px-8 px-4 py-4 border border-b border-b-[#e6ebf4]'>
-      <div className='flex flex-col sm:flex-row justify-between items-center gap-5 w-full'>
-        <ul className='list-none flex items-center justify-between  gap-1.5'>
-          <Link to='/' className='text-[25px] mr-4 font-bold text-[#222328]'>Forum</Link>
-          <Link to='/' className='text-[14px] font-600 text-[#222328]'>Home</Link>
+      <div className='flex flex-col sm:flex-row sm:justify-between items-center gap-5 w-full'>
+      <Link to='/' className='text-[25px] mr-4 font-bold text-[#222328]'>Forum</Link>
+        <ul className='list-none flex items-center justify-between  gap-[15px]'>
+          <Link to='/' className='text-[14px] underline font-600 text-[#222328]'>Home</Link>
+          <Link to='/CreatePost' className='text-[14px] underline font-600 text-[#222328]'>New Post</Link>
         </ul>
         <div className='flex gap-2'>
           {data ? 
             <>
-              
-            <button  onClick={handleLogout}
-              className=" text-white font-medium bg-green-700 font-medium
-              rounded-md text-sm  
-                px-5 py-2.5 text-center">
-                Logout 
-            </button>
+              <div className='flex justify-between items-center gap-[15px]'>
+                <h1 className='text-[16px] text-green-700 font-medium'>
+                  {data}
+                </h1>
+                <button  onClick={handleLogout}
+                  className=" text-white font-medium bg-green-700 font-medium
+                  rounded-md text-sm  
+                    px-5 py-2.5 text-center">
+                    Logout 
+                </button>
+              </div>
             </>
           : 
             <>

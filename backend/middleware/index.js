@@ -3,7 +3,7 @@ require('dotenv').config();
 
 const authorize = (req, res, next) => {
     const token = req.body.token
-    console.log(token.token);
+    // console.log(token.token);
      
     if(!token) return res.status(400).send({
         "errors": [
@@ -15,10 +15,10 @@ const authorize = (req, res, next) => {
         ]
     })
     try {
-        console.log(token);
+        // console.log(token);
         const user =  jwt.verify(token,process.env.secretKey,(err,res)=>{
             if(err) return  console.log(err);
-            console.log(res);
+            // console.log(res);
             req.id = res.id;
             
             next();

@@ -141,7 +141,7 @@ const Login = async(req,res)=>{
 
 const getUser = async(req,res)=>{
     const userId = req.id;
-    console.log(userId);
+    // console.log(userId);
     try {
         const profileUser = await user.findOne({_id:userId})
         if(!profileUser){
@@ -169,6 +169,5 @@ const getUser = async(req,res)=>{
 module.exports = {
     register,
     Login,
-   
     getUser
 }

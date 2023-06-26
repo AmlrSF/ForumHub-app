@@ -18,7 +18,5 @@ const shcemaUser = new mongoose.Schema({
 
 
 
-
-
 module.exports = mongoose.model('user',shcemaUser);
 
