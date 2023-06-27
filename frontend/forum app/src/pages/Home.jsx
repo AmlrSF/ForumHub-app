@@ -59,8 +59,8 @@ const Home = () => {
   return (
     <div className='card-container pt-5'>
       {
-        posts.map(post=>{
-          return <Post data={post} />
+        posts.map((post,index)=>{
+          return <Post info={post} key={index+1}/>
         })
       }
     </div>

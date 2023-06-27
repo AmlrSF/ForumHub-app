@@ -1,6 +1,6 @@
 const Post = require('../schema/index2.js');
-const user = require('../schema/index.js');
-
+const user = require('../schema/index');
+const mongoose = require('mongoose');
 const cloudinary = require('cloudinary').v2;
 
 cloudinary.config({ 
@@ -53,10 +53,113 @@ const getSinglePost = async(req,res)=>{
         res.status(200).send({sucess:false,msg:"internal server error"});
     }
 }
+
+const like = async(req,res)=>{
+    const postId = req.params.postId;
+    const username = req.body.username; // Assuming you have userId in the request body
+    const User = await user.findOne({username});
+    const post = await Post.findById(postId);
+    
+    try {
+        console.log(User);
+        // console.log(User,post);
+
+      if (!User) {
+        return res.status(404).json({ error: 'User not found' });
+      }
+  
+      if (!post) {
+        return res.status(404).json({ error: 'Post not found' });
+      }
+
+     // Check if the user has already liked the post
+     const hasLiked = post.likes.includes(User.username);
+
+     if (hasLiked) {
+        throw new Error('User has already liked the post');
+      }
+
+      post.likes.push(User.username);
+      await post.save();
+  
+      const message = hasLiked ? 'Post unliked successfully' : 'Post liked successfully';
+      return res.json({ message });
+    } catch (error) {
+        console.log(error);
+      return res.status(500).json({ error: 'Error liking/unliking post' });
+    }
+}
+const unlike = async(req,res)=>{
+    const postId = req.params.postId;
+    const userId = req.body.userId; // Assuming you have userId in the request body
+    const User = await user.findById(userId);
+    const post = await Post.findById(postId);
+
+    try {
+    
+        console.log(User,post);
+
+      if (!User) {
+        return res.status(404).json({ error: 'User not found' });
+      }
+  
+      if (!post) {
+        return res.status(404).json({ error: 'Post not found' });
+      }
+
+     // Check if the user has already liked the post
+     const hasLiked = post.likes.includes(User.username);
+
+     if(hasLiked){
+        post.likes = post.likes.filter((username) => username !== User.username);
+      await post.save();
+  
+      const message = hasLiked ? 'Post unliked successfully' : 'Post liked successfully';
+      return res.json({ message });
+     }
+     
+      
+    } catch (error) {
+        console.log(error);
+      return res.status(500).json({ error: 'Error liking/unliking post' });
+    }
+}
+
+const comment = async(req,res)=>{
+    const postId = req.params.postId;
+    const { username, content } = req.body; // Assuming you have username and content in the request body
+  
+    try {
+      const post = await Post.findById(postId);
+        console.log(post);
+      if (!post) {
+        return res.status(404).json({ error: 'Post not found' });
+      }
+  
+      const comment = {
+        username,
+        _id: new mongoose.Types.ObjectId(),
+        content,
+        createdTime: new Date()
+      };
+  
+      post.comments.push(comment);
+      await post.save();
+  
+      return res.json({ message: 'Comment created successfully', comment });
+    } catch (error) {
+        console.log(error);
+      return res.status(500).json({ error: 'Error creating comment' });
+    }
+}
+
 module.exports = {
     addPost,
     getPosts,
-    getSinglePost
+    getSinglePost,
+    like,
+    unlike,
+    comment
 }
 
 
