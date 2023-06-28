@@ -7,11 +7,13 @@ const {
     getSinglePost,
     like,
     unlike,
-    comment
+    comment,
+    getRelatedPosts
 } = require('../controllers/index2.js');
 
 router.route('/CreatePost').post(addPost);
-router.route('/').get(getPosts)
+router.route('/').get(getPosts);
+router.route('/post/:user').get(getRelatedPosts);
 router.route('/:id').get(getSinglePost);
 
 

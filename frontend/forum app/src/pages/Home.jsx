@@ -14,7 +14,7 @@ const Home = () => {
     (async ()=>{
       try {
            const token = window.localStorage;
-            console.log(token);
+            // console.log(token);
           // console.log(token);
           await fetch('http://localhost:5500/api/v1/users/user', {
             method: 'POST',
@@ -48,7 +48,7 @@ const Home = () => {
         const finalPosts = await responsePosts.json();
         
         setposts(finalPosts.data);
-        console.log(posts);
+        // console.log(posts);
       } catch (error) {
         console.log(error);
       }

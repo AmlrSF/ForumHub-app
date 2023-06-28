@@ -41,6 +41,18 @@ const getPosts = async(req,res)=>{
         res.status(400).json({ success: false, data: "internal server issue" });
     }
 }
+const getRelatedPosts = async(req,res)=>{
+  let {user} = req.params;
+  try {
+      const posts = await Post.find({author:user});
+      res.status(200).send({
+          success:true,
+          data:posts
+      })    
+  } catch (error) {
+      res.status(400).json({ success: false, data: "internal server issue" });
+  }
+}
 
 const getSinglePost = async(req,res)=>{
     let {id} = req.params;
@@ -61,7 +73,7 @@ const like = async(req,res)=>{
     const post = await Post.findById(postId);
     
     try {
-        console.log(User);
+        // console.log(User);
         // console.log(User,post);
 
       if (!User) {
@@ -97,7 +109,7 @@ const unlike = async(req,res)=>{
 
     try {
     
-        console.log(User,post);
+        // console.log(User,post);
 
       if (!User) {
         return res.status(404).json({ error: 'User not found' });
@@ -159,7 +171,8 @@ module.exports = {
     getSinglePost,
     like,
     unlike,
-    comment
+    comment,
+    getRelatedPosts
 }
 
 
