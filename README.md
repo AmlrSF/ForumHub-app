@@ -38,15 +38,7 @@ The forum-like and comment feature application is built using the following tech
 
 ## Contributing
 
-Contributions to this project are welcome. To contribute, follow these steps:
-
-1. Fork this repository.
-2. Create a new branch with a descriptive name (`git checkout -b my-new-feature`).
-3. Make your changes and commit them (`git commit -am 'Add new feature'`).
-4. Push your changes to the branch (`git push origin my-new-feature`).
-5. Create a new pull request.
-
-Please ensure that your code adheres to the existing code style and includes appropriate tests.
+Contributions to this project are welcome. If you would like to contribute, you can help by improving the existing features, fixing any bugs, or suggesting new features to enhance the forum-like and comment functionality. Additionally, if you come across any issues or have any suggestions, please feel free to open an issue in the repository. Your contributions and feedback will be valuable in making this application even better for the users. Thank you for considering contributing to this project!
 
 ## License
 
